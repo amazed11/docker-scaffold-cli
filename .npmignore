@@ -1,0 +1,29 @@
+# Git related
+.git/
+.gitignore
+
+# Test files
+test/
+coverage/
+__tests__/
+*.test.js
+
+# CI/CD
+.github/
+.travis.yml
+.gitlab-ci.yml
+circle.yml
+
+# Editor configs
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+.editorconfig
+
+# Misc
+.DS_Store
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
