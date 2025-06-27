@@ -13,14 +13,17 @@ The Docker Scaffold CLI uses [EJS (Embedded JavaScript)](https://ejs.co/) as the
 ## Template Files
 
 ### 1. `Dockerfile.ejs`
+
 Generates a `Dockerfile` for containerizing your Node.js application.
 
 **Key Variables:**
+
 - `nodeVersion` - Node.js version (e.g., "18", "20")
 - `production` - Boolean for production-ready configuration
 - `containerPort` - Port exposed inside the container
 
 **Example Output:**
+
 ```dockerfile
 FROM node:18-alpine
 WORKDIR /app
@@ -32,9 +35,11 @@ EXPOSE 3000
 ```
 
 ### 2. `docker-compose.ejs`
+
 Generates a `docker-compose.yml` file for multi-container applications.
 
 **Key Variables:**
+
 - `projectName` - Name of your project
 - `hostPort` / `containerPort` - Port mapping
 - `includeDB` - Boolean to include database service
@@ -43,6 +48,7 @@ Generates a `docker-compose.yml` file for multi-container applications.
 - `dockerUsername` - Docker Hub username
 
 **Example Output:**
+
 ```yaml
 version: "3.8"
 services:
@@ -61,9 +67,11 @@ services:
 ```
 
 ### 3. `deploy.yml.ejs`
+
 Generates a GitHub Actions workflow file (`.github/workflows/deploy.yml`) for CI/CD.
 
 **Key Variables:**
+
 - `deploymentTarget` - Target platform ("vps", "aws", "azure", "ec2")
 - `mainBranch` - Git branch to trigger deployment
 - `useDockerRegistry` - Boolean for Docker registry usage
@@ -71,11 +79,12 @@ Generates a GitHub Actions workflow file (`.github/workflows/deploy.yml`) for CI
 - `sshHost`, `sshUser`, `sshPath` - SSH deployment configuration
 
 **Example Output:**
+
 ```yaml
 name: Deploy to VPS
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -90,12 +99,15 @@ jobs:
 ## EJS Syntax Used
 
 ### Variable Interpolation
+
 ```ejs
 <%- variableName %>
 ```
+
 Outputs the value of `variableName` without HTML escaping.
 
 ### Conditional Blocks
+
 ```ejs
 <%_ if (condition) { _%>
   Content when condition is true
@@ -105,6 +117,7 @@ Outputs the value of `variableName` without HTML escaping.
 ```
 
 ### Loops (used in some templates)
+
 ```ejs
 <% items.forEach(function(item) { %>
   <div><%= item %></div>
@@ -116,6 +129,7 @@ Outputs the value of `variableName` without HTML escaping.
 All templates receive a configuration object with the following properties:
 
 ### Basic Configuration
+
 - `projectName` - Project name
 - `containerPort` - Port inside container
 - `hostPort` - Port on host machine
@@ -123,15 +137,18 @@ All templates receive a configuration object with the following properties:
 - `production` - Production-ready configuration flag
 
 ### Database Configuration
+
 - `includeDB` - Include database service
 - `dbType` - Database type ("postgres", "mysql", "mongodb")
 
 ### Docker Registry Configuration
+
 - `useDockerRegistry` - Use Docker image registry
 - `dockerRegistry` - Registry type ("dockerhub", "other")
 - `dockerUsername` - Docker Hub username
 
 ### Deployment Configuration
+
 - `includeWorkflow` - Include GitHub Actions workflow
 - `deploymentTarget` - Deployment target ("vps", "aws", "azure", "ec2")
 - `mainBranch` - Main branch for deployment
@@ -139,18 +156,22 @@ All templates receive a configuration object with the following properties:
 ### Target-Specific Configuration
 
 #### VPS/SSH Deployment
+
 - `sshHost` - SSH hostname
 - `sshUser` - SSH username
 - `sshPath` - Deployment path on server
 
 #### AWS Deployment
+
 - `awsRegion` - AWS region
 - `awsCluster` - ECS cluster name
 
 #### Azure Deployment
+
 - `azureResourceGroup` - Azure resource group
 
 #### EC2 Deployment
+
 - `ec2User` - EC2 SSH username
 - `ec2Host` - EC2 instance hostname
 - `ec2RepoPath` - Repository path on EC2
@@ -182,6 +203,7 @@ To add a new template:
 Here's a simple example of creating a new template for a `.env` file:
 
 **`env.ejs`:**
+
 ```ejs
 # Environment variables for <%- projectName %>
 NODE_ENV=<%- production ? 'production' : 'development' %>
@@ -198,6 +220,7 @@ DATABASE_URL=mysql://user:password@db:3306/<%- projectName %>_db
 ```
 
 **Add to `writer.ts`:**
+
 ```typescript
 { src: "env.ejs", dest: ".env.example" }
 ```
