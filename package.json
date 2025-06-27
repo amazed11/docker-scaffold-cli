@@ -1,6 +1,6 @@
 {
   "name": "docker-scaffold-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A CLI tool to scaffold Docker configuration files for your projects",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
